@@ -1,0 +1,286 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+\usetikzlibrary{automata,positioning}
+
+\newcommand{\sectionbreak}{\clearpage}
+
+\titlespacing{\section}{0pt}{5pt}{-5pt}
+\titlespacing{\subsection}{0pt}{5pt}{-5pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+\title{TDDD14 - Home assignment 1}
+\author{Jesper Wrang (jeswr740) - 960619-8472 - jeswr740@student.liu.se}
+
+\date{2019-04-03}
+
+\begin{document}
+
+\maketitle
+
+%\section{Introduction}
+
+% -----------------------------------------------------
+% ------------------------ 1 --------------------------
+% -----------------------------------------------------
+\section{}
+
+\begin{enumerate}[label=(\alph*)]
+    \item $0^*(0+1)(0+1)^*$  - översatt till svenska: godtyckligt med nollor, sedan måste de vara antingen en etta eller nolla, sedan godtyckligt med karaktärer. Alla utom e) innehåller en etta eller nolla, därför accepteras alla de strängarna.
+
+    \textbf{Svar:} a, b, c och d
+
+    \item $(0+1)^*1(0+1)^*0(0+1)^*$ - måste innehålla en etta och sedan en nolla. Endast b) och c) uppfyller detta.
+
+    \textbf{Svar:} b och c
+
+    \item $(0 + (0 + 1)^*)(0^*+1^*)$ - första parentesen säger: noll eller godtycklig sträng. Sista parentesen säger godtyckligt med nollor sedan godtyckligt med ettor. Detta sätter alltså inget riktigt krav på strängen, utan alla matchar.
+
+    \textbf{Svar:} a, b, c, d och e
+
+    \item $(0^*+1)(0+1^*)$ - första parentesen är att du möta börja på antingen en massa nollor eller på en etta. Andra parentesen är att du måste sluta på antingen en nolla eller massa ettor. a) och d) uppfyller dessa villkor.
+
+    \textbf{Svar:} a och d
+
+    \item $(0^*+1^*)^*$ - godtyckligt med ettor eller nollor, upprepat godtyckligt med gånger. Matchar allt. 
+
+    \textbf{Svar:} a, b, c, d och e
+\end{enumerate}
+
+
+% -----------------------------------------------------
+% ------------------------ 2 --------------------------
+% -----------------------------------------------------
+\section{}
+\input{figures/1.2}
+% -----------------------------------------------------
+% ------------------------ 3 --------------------------
+% -----------------------------------------------------
+\section{}
+
+Metoden ger följande tabell:
+\begin{center}
+\begin{tabular}{ |l|l|l| }
+\hline
+\multicolumn{1}{|c}{$\textbf{state}$}    &  \multicolumn{1}{|c}{$\textbf{0}$}      &  \multicolumn{1}{|c|}{$\textbf{1}$} \\ \hline
+$\to \{a, b, c\}$     & $\{b, e\}$        & $\{b, d\}$            \\ \hline
+$F\, \{b, e\}$        & $\{a, b, c, d\}$  & $\{d\}$             \\ \hline
+$F\, \{b, d\}$        & $\{b, e\}$        & $\{a, b, c, d\}$    \\ \hline
+$F\, \{a, b, c, d\}$  & $\{b, e\}$        & $\{a, b, c, d\}$    \\ \hline
+$F\, \{d\}$           & $\{e\}$           & $\{a, b, c\}$       \\ \hline
+$F\, \{e\}$           & $\{a, b, c\}$     & $\{d\}$             \\ \hline
+\end{tabular}
+\end{center}
+
+Vilket i sin tur ger denna DFA:
+\input{figures/1.3.tex}
+
+% -----------------------------------------------------
+% ------------------------ 4 --------------------------
+% -----------------------------------------------------
+\section{}
+Lägg till en startnod $q_s$ och en slutnod $q_F$ till grafen: 
+Börja med att eliminera något state, t.ex. a:
+\input{figures/1.4.1.tex}
+\begin{align*}
+q_s \to a \to b: & \quad R_1R_2^*R_3+R_4 = \varepsilon\O^*0+\O = 0 \\
+q_s \to a \to c: & \quad R_1R_2^*R_3+R_4 = \varepsilon\O^*1+\O = 1
+\end{align*}
+\input{figures/1.4.2.tex}
+Forsätt med att ta bort state b:
+\begin{align*}
+q_s \to b \to d: & \quad R_1R_2^*R_3+R_4 = 00^*1 \\
+\end{align*}
+\input{figures/1.4.3.tex}
+Ta bort c:
+\begin{align*}
+q_s \to c \to d: & \quad R_1R_2^*R_3+R_4 = 11^*0 \\
+\end{align*}
+\input{figures/1.4.4.tex}
+Sist ta bort d:
+\begin{align*}
+q_s \to d \to q_F: & \quad R_1R_2^*R_3+R_4 = (00^*1+11^*0)(0+1)^* \\
+\end{align*}
+\input{figures/1.4.5.tex}
+
+\textbf{Svar: } $(00^*1+11^*0)(0+1)^*$
+
+% -----------------------------------------------------
+% ------------------------ 5 --------------------------
+% -----------------------------------------------------
+\section{}
+a
+% -----------------------------------------------------
+% ------------------------ 6 --------------------------
+% -----------------------------------------------------
+\section{}
+\begin{enumerate}[label=(\alph*)]
+    \item 
+Här kan vi skapa en automat som räknar hur många a:s man har i x-led och hur många b:s man har i y-led. Skulle det någonsin hända att $\#a(w) \le \#b(w)$ så går vi till ett trap-tillstånd.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (12.2,-16.7) circle (3);
+\draw (12.2,-16.7) node {$Start$};
+\draw [black] (24.6,-16.7) circle (3);
+\draw (24.6,-16.7) node {$1a0b$};
+\draw [black] (24.6,-16.7) circle (2.4);
+\draw [black] (35.8,-16.7) circle (3);
+\draw (35.8,-16.7) node {$2a0b$};
+\draw [black] (35.8,-16.7) circle (2.4);
+\draw [black] (48.4,-16.7) circle (3);
+\draw (48.4,-16.7) node {$3a0b$};
+\draw [black] (48.4,-16.7) circle (2.4);
+\draw [black] (35.8,-29.7) circle (3);
+\draw (35.8,-29.7) node {$2a1b$};
+\draw [black] (35.8,-29.7) circle (2.4);
+\draw [black] (48.4,-29.7) circle (3);
+\draw (48.4,-29.7) node {$3a1b$};
+\draw [black] (48.4,-29.7) circle (2.4);
+\draw [black] (12.2,-47.1) circle (3);
+\draw (12.2,-47.1) node {$Trap$};
+\draw [black] (48.4,-41.5) circle (3);
+\draw (48.4,-41.5) node {$3a2b$};
+\draw [black] (48.4,-41.5) circle (2.4);
+\draw [black] (61.2,-16.7) circle (3);
+\draw (61.2,-16.7) node {$4a0b$};
+\draw [black] (61.2,-16.7) circle (2.4);
+\draw [black] (61.2,-29.5) circle (3);
+\draw (61.2,-29.5) node {$4a1b$};
+\draw [black] (61.2,-29.5) circle (2.4);
+\draw [black] (61.2,-41.5) circle (3);
+\draw (61.2,-41.5) node {$4a2b$};
+\draw [black] (61.2,-41.5) circle (2.4);
+\draw [black] (61.2,-53.5) circle (3);
+\draw (61.2,-53.5) node {$4a3b$};
+\draw [black] (61.2,-53.5) circle (2.4);
+\draw [black] (4,-16.7) -- (9.2,-16.7);
+\fill [black] (9.2,-16.7) -- (8.4,-16.2) -- (8.4,-17.2);
+\draw [black] (15.2,-16.7) -- (21.6,-16.7);
+\fill [black] (21.6,-16.7) -- (20.8,-16.2) -- (20.8,-17.2);
+\draw (18.4,-17.2) node [below] {$a$};
+\draw [black] (27.6,-16.7) -- (32.8,-16.7);
+\fill [black] (32.8,-16.7) -- (32,-16.2) -- (32,-17.2);
+\draw (30.2,-17.2) node [below] {$a$};
+\draw [black] (38.8,-16.7) -- (45.4,-16.7);
+\fill [black] (45.4,-16.7) -- (44.6,-16.2) -- (44.6,-17.2);
+\draw (42.1,-17.2) node [below] {$a$};
+\draw [black] (13.523,-49.78) arc (54:-234:2.25);
+\draw (12.2,-54.35) node [below] {$a,b$};
+\fill [black] (10.88,-49.78) -- (10,-50.13) -- (10.81,-50.72);
+\draw [black] (35.8,-19.7) -- (35.8,-26.7);
+\fill [black] (35.8,-26.7) -- (36.3,-25.9) -- (35.3,-25.9);
+\draw (35.3,-23.2) node [left] {$b$};
+\draw [black] (48.4,-19.7) -- (48.4,-26.7);
+\fill [black] (48.4,-26.7) -- (48.9,-25.9) -- (47.9,-25.9);
+\draw (47.9,-23.2) node [left] {$b$};
+\draw [black] (12.2,-19.7) -- (12.2,-44.1);
+\fill [black] (12.2,-44.1) -- (12.7,-43.3) -- (11.7,-43.3);
+\draw (11.7,-31.9) node [left] {$b$};
+\draw [black] (48.4,-32.7) -- (48.4,-38.5);
+\fill [black] (48.4,-38.5) -- (48.9,-37.7) -- (47.9,-37.7);
+\draw (47.9,-35.6) node [left] {$b$};
+\draw [black] (33.39,-31.48) -- (14.61,-45.32);
+\fill [black] (14.61,-45.32) -- (15.56,-45.25) -- (14.96,-44.44);
+\draw (23,-37.9) node [above] {$b$};
+\draw [black] (38.8,-29.7) -- (45.4,-29.7);
+\fill [black] (45.4,-29.7) -- (44.6,-29.2) -- (44.6,-30.2);
+\draw (42.1,-30.2) node [below] {$a$};
+\draw [black] (51.4,-16.7) -- (58.2,-16.7);
+\fill [black] (58.2,-16.7) -- (57.4,-16.2) -- (57.4,-17.2);
+\draw (54.8,-17.2) node [below] {$a$};
+\draw [black] (51.4,-29.65) -- (58.2,-29.55);
+\fill [black] (58.2,-29.55) -- (57.39,-29.06) -- (57.41,-30.06);
+\draw (54.8,-30.11) node [below] {$a$};
+\draw [black] (61.2,-19.7) -- (61.2,-26.5);
+\fill [black] (61.2,-26.5) -- (61.7,-25.7) -- (60.7,-25.7);
+\draw (60.7,-23.1) node [left] {$b$};
+\draw [black] (61.2,-32.5) -- (61.2,-38.5);
+\fill [black] (61.2,-38.5) -- (61.7,-37.7) -- (60.7,-37.7);
+\draw (60.7,-35.5) node [left] {$b$};
+\draw [black] (51.4,-41.5) -- (58.2,-41.5);
+\fill [black] (58.2,-41.5) -- (57.4,-41) -- (57.4,-42);
+\draw (54.8,-42) node [below] {$a$};
+\draw [black] (45.44,-41.96) -- (15.16,-46.64);
+\fill [black] (15.16,-46.64) -- (16.03,-47.01) -- (15.88,-46.02);
+\draw (29.91,-43.71) node [above] {$b$};
+\draw [black] (63.88,-15.377) arc (144:-144:2.25);
+\draw (68.45,-16.7) node [right] {$a$};
+\fill [black] (63.88,-18.02) -- (64.23,-18.9) -- (64.82,-18.09);
+\draw [black] (63.88,-28.177) arc (144:-144:2.25);
+\draw (68.45,-29.5) node [right] {$a$};
+\fill [black] (63.88,-30.82) -- (64.23,-31.7) -- (64.82,-30.89);
+\draw [black] (63.88,-40.177) arc (144:-144:2.25);
+\draw (68.45,-41.5) node [right] {$a$};
+\fill [black] (63.88,-42.82) -- (64.23,-43.7) -- (64.82,-42.89);
+\draw [black] (61.2,-44.5) -- (61.2,-50.5);
+\fill [black] (61.2,-50.5) -- (61.7,-49.7) -- (60.7,-49.7);
+\draw (60.7,-47.5) node [left] {$b$};
+\draw [black] (63.88,-52.177) arc (144:-144:2.25);
+\draw (68.45,-53.5) node [right] {$a$};
+\fill [black] (63.88,-54.82) -- (64.23,-55.7) -- (64.82,-54.89);
+\draw [black] (58.23,-53.11) -- (15.17,-47.49);
+\fill [black] (15.17,-47.49) -- (15.9,-48.09) -- (16.03,-47.1);
+\draw (37,-49.71) node [above] {$b$};
+\draw [black] (23.47,-19.48) -- (13.33,-44.32);
+\fill [black] (13.33,-44.32) -- (14.1,-43.77) -- (13.17,-43.39);
+\draw (17.66,-31) node [left] {$b$};
+\end{tikzpicture}
+\end{center}
+
+\newpage
+\item
+Välj $s = a^{p+5}\,b^{p+4}$
+
+$s \in L_2$ då det uppfyller det första kravet (dock inte det andra). Vi kan nu välja $x, y$ och $z$ så att $s=xyz$ enligt:
+\begin{flalign*}
+& x = a^k, \quad k > 0 \\
+& y = a^m, \quad m > 0, \quad k+m \le p \\
+& z = a^{p-m-k+5}\,\, b^{p+4} 
+\end{flalign*}
+Vi kan nu pumpa y neråt:
+$$xy^0z = a^k a^{p-m-k-5} \, b^{p+4} = a^{p-m+5}\, b^{p+4}$$
+%Alltså får vi: 
+%$$s = xyz = a^k a^m a^{p-m-k+5} \, b^{p+4} = a^{p+5}\, b^{p+4}$$
+
+Men nu ser vi att mängden a:s är mindre än eller lika med mängden b:s då:
+$$p-m+5 \le p + 4$$
+alltså tillhör inte denna strängen $L_2$, vilket leder till att pumplemmat inte håller och att $L_2$ inte är reguljärt.
+\end{enumerate}
+
+% -----------------------------------------------------
+% ------------------------ 7 --------------------------
+% -----------------------------------------------------
+\section{}
+
+\begin{enumerate}[label=(\alph*)]
+    \item 
+Välj $s$ så att $s \in T$ och att $|s| = 2^p$. Vi kan nu välja $x, y$ och $z$ så att $s=xyz$ enligt:
+\begin{flalign*}
+& |x] = k, \quad k > 0 \\
+& |y| = 1, \quad k + 1 \le p \\
+& |z| = 2^p-k-1
+\end{flalign*}
+%Vi får: 
+%$$|s| = |xyz| = |k + m + 2^p - k - m| = 2^p$$
+
+Om vi nu pumpar y uppåt får vi:
+$$|xy^2z| = |k + 2 + 2^p - 1 - k| = |2^p - 1|$$
+vilket uppenbart har udda längd och alltså inte tillhör $T$, och då leder till att $T$ inte är reguljärt enligt pumplemmat.
+
+    \item 
+Gör ett motsägelsebevis. Antag att:
+$$a^i \equiv_T a^k, \quad k > i > 0$$
+
+Låt $z = $
+
+
+\end{enumerate}
+
+\end{document}
