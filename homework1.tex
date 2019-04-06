@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{amsfonts}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{tikz}
@@ -17,13 +19,13 @@
 \title{TDDD14 - Home assignment 1}
 \author{Jesper Wrang (jeswr740) - 960619-8472 - jeswr740@student.liu.se}
 
-\date{2019-04-03}
+\date{2019-04-06}
 
 \begin{document}
 
 \maketitle
 
-%\section{Introduction}
+% För att göra grafer: http://madebyevan.com/fsm/
 
 % -----------------------------------------------------
 % ------------------------ 1 --------------------------
@@ -114,7 +116,63 @@ q_s \to d \to q_F: & \quad R_1R_2^*R_3+R_4 = (00^*1+11^*0)(0+1)^* \\
 % ------------------------ 5 --------------------------
 % -----------------------------------------------------
 \section{}
-a
+
+Vi börjar med att markera alla par av tillstånd där ena är accept och den andra är reject:
+
+\begin{center}
+\begin{tabular}{|*{6}{c|}}
+                             \cline{1-1}
+  \textbf{a}              \\ \cline{1-2}
+  0 & \textbf{b}          \\ \cline{1-3}
+  0 &  & \textbf{c}       \\ \cline{1-4}
+  0 &  &  & \textbf{d}    \\ \cline{1-5}
+  0 &  &  &  & \textbf{e} \\ \cline{1-5}
+\end{tabular}
+\end{center}
+
+Första iterationen:
+\begin{align*}
+    \{b, c\} : \{\delta(b, 0), \delta(c, 0)\} &= \{a, e\} \text{ är markerad, markera } \{b, c\} \\
+    \{b, d\} : \{\delta(b, 0), \delta(d, 0)\} &= \{a, e\} \text{ är markerad, markera } \{b, d\} \\
+    \{b, e\} : \{\delta(b, 0), \delta(e, 0)\} &= \{a\} \text{ är inte markerad, kolla 1} \\
+    \{b, e\} : \{\delta(b, 1), \delta(e, 1)\} &= \{d\} \text{ är inte markerad, markera inte} \\
+    \{c, d\} : \{\delta(c, 0), \delta(d, 0)\} &= \{e\} \text{ är inte markerad, kolla 1} \\
+    \{c, d\} : \{\delta(c, 1), \delta(d, 1)\} &= \{a\} \text{ är inte markerad, markera inte} \\
+    \{c, e\} : \{\delta(c, 0), \delta(e, 0)\} &= \{a, d\} \text{ är markerad, så markera } \{c, e\} \\
+    \{d, e\} : \{\delta(d, 0), \delta(e, 0)\} &= \{a, e\} \text{ är markerad, så markera } \{d, e\} \\
+\end{align*}
+\begin{center}
+\begin{tabular}{|*{6}{c|}}
+                             \cline{1-1}
+  \textbf{a}              \\ \cline{1-2}
+  0 & \textbf{b}          \\ \cline{1-3}
+  0 & 1 & \textbf{c}       \\ \cline{1-4}
+  0 & 1 &  & \textbf{d}    \\ \cline{1-5}
+  0 &   & 1 & 1 & \textbf{e} \\ \cline{1-5}
+\end{tabular}
+\end{center}
+
+Andra iterationen:
+\begin{align*}
+    \{b, e\} : \{\delta(b, 0), \delta(e, 0)\} &= \{a\} \text{ är inte markerad, kolla 1} \\
+    \{b, e\} : \{\delta(b, 1), \delta(e, 1)\} &= \{d\} \text{ är inte markerad, markera inte} \\
+    \{c, d\} : \{\delta(c, 0), \delta(d, 0)\} &= \{e\} \text{ är inte markerad, kolla 1} \\
+    \{c, d\} : \{\delta(c, 1), \delta(d, 1)\} &= \{a\} \text{ är inte markerad, markera inte} \\
+\end{align*}
+\begin{center}
+\begin{tabular}{|*{6}{c|}}
+                             \cline{1-1}
+  \textbf{a}              \\ \cline{1-2}
+  0 & \textbf{b}          \\ \cline{1-3}
+  0 & 1 & \textbf{c}       \\ \cline{1-4}
+  0 & 1 &  & \textbf{d}    \\ \cline{1-5}
+  0 &   & 1 & 1 & \textbf{e} \\ \cline{1-5}
+\end{tabular}
+\end{center}
+
+Inga ändringar skedde i andra iterationen vilket betyder att vi är färdiga. Vi får att $b \approx e$ och $c \approx d$. Den minimala DFA blir då:
+\input{figures/1.5.tex}
+
 % -----------------------------------------------------
 % ------------------------ 6 --------------------------
 % -----------------------------------------------------
@@ -122,117 +180,7 @@ a
 \begin{enumerate}[label=(\alph*)]
     \item 
 Här kan vi skapa en automat som räknar hur många a:s man har i x-led och hur många b:s man har i y-led. Skulle det någonsin hända att $\#a(w) \le \#b(w)$ så går vi till ett trap-tillstånd.
-
-\begin{center}
-\begin{tikzpicture}[scale=0.2]
-\tikzstyle{every node}+=[inner sep=0pt]
-\draw [black] (12.2,-16.7) circle (3);
-\draw (12.2,-16.7) node {$Start$};
-\draw [black] (24.6,-16.7) circle (3);
-\draw (24.6,-16.7) node {$1a0b$};
-\draw [black] (24.6,-16.7) circle (2.4);
-\draw [black] (35.8,-16.7) circle (3);
-\draw (35.8,-16.7) node {$2a0b$};
-\draw [black] (35.8,-16.7) circle (2.4);
-\draw [black] (48.4,-16.7) circle (3);
-\draw (48.4,-16.7) node {$3a0b$};
-\draw [black] (48.4,-16.7) circle (2.4);
-\draw [black] (35.8,-29.7) circle (3);
-\draw (35.8,-29.7) node {$2a1b$};
-\draw [black] (35.8,-29.7) circle (2.4);
-\draw [black] (48.4,-29.7) circle (3);
-\draw (48.4,-29.7) node {$3a1b$};
-\draw [black] (48.4,-29.7) circle (2.4);
-\draw [black] (12.2,-47.1) circle (3);
-\draw (12.2,-47.1) node {$Trap$};
-\draw [black] (48.4,-41.5) circle (3);
-\draw (48.4,-41.5) node {$3a2b$};
-\draw [black] (48.4,-41.5) circle (2.4);
-\draw [black] (61.2,-16.7) circle (3);
-\draw (61.2,-16.7) node {$4a0b$};
-\draw [black] (61.2,-16.7) circle (2.4);
-\draw [black] (61.2,-29.5) circle (3);
-\draw (61.2,-29.5) node {$4a1b$};
-\draw [black] (61.2,-29.5) circle (2.4);
-\draw [black] (61.2,-41.5) circle (3);
-\draw (61.2,-41.5) node {$4a2b$};
-\draw [black] (61.2,-41.5) circle (2.4);
-\draw [black] (61.2,-53.5) circle (3);
-\draw (61.2,-53.5) node {$4a3b$};
-\draw [black] (61.2,-53.5) circle (2.4);
-\draw [black] (4,-16.7) -- (9.2,-16.7);
-\fill [black] (9.2,-16.7) -- (8.4,-16.2) -- (8.4,-17.2);
-\draw [black] (15.2,-16.7) -- (21.6,-16.7);
-\fill [black] (21.6,-16.7) -- (20.8,-16.2) -- (20.8,-17.2);
-\draw (18.4,-17.2) node [below] {$a$};
-\draw [black] (27.6,-16.7) -- (32.8,-16.7);
-\fill [black] (32.8,-16.7) -- (32,-16.2) -- (32,-17.2);
-\draw (30.2,-17.2) node [below] {$a$};
-\draw [black] (38.8,-16.7) -- (45.4,-16.7);
-\fill [black] (45.4,-16.7) -- (44.6,-16.2) -- (44.6,-17.2);
-\draw (42.1,-17.2) node [below] {$a$};
-\draw [black] (13.523,-49.78) arc (54:-234:2.25);
-\draw (12.2,-54.35) node [below] {$a,b$};
-\fill [black] (10.88,-49.78) -- (10,-50.13) -- (10.81,-50.72);
-\draw [black] (35.8,-19.7) -- (35.8,-26.7);
-\fill [black] (35.8,-26.7) -- (36.3,-25.9) -- (35.3,-25.9);
-\draw (35.3,-23.2) node [left] {$b$};
-\draw [black] (48.4,-19.7) -- (48.4,-26.7);
-\fill [black] (48.4,-26.7) -- (48.9,-25.9) -- (47.9,-25.9);
-\draw (47.9,-23.2) node [left] {$b$};
-\draw [black] (12.2,-19.7) -- (12.2,-44.1);
-\fill [black] (12.2,-44.1) -- (12.7,-43.3) -- (11.7,-43.3);
-\draw (11.7,-31.9) node [left] {$b$};
-\draw [black] (48.4,-32.7) -- (48.4,-38.5);
-\fill [black] (48.4,-38.5) -- (48.9,-37.7) -- (47.9,-37.7);
-\draw (47.9,-35.6) node [left] {$b$};
-\draw [black] (33.39,-31.48) -- (14.61,-45.32);
-\fill [black] (14.61,-45.32) -- (15.56,-45.25) -- (14.96,-44.44);
-\draw (23,-37.9) node [above] {$b$};
-\draw [black] (38.8,-29.7) -- (45.4,-29.7);
-\fill [black] (45.4,-29.7) -- (44.6,-29.2) -- (44.6,-30.2);
-\draw (42.1,-30.2) node [below] {$a$};
-\draw [black] (51.4,-16.7) -- (58.2,-16.7);
-\fill [black] (58.2,-16.7) -- (57.4,-16.2) -- (57.4,-17.2);
-\draw (54.8,-17.2) node [below] {$a$};
-\draw [black] (51.4,-29.65) -- (58.2,-29.55);
-\fill [black] (58.2,-29.55) -- (57.39,-29.06) -- (57.41,-30.06);
-\draw (54.8,-30.11) node [below] {$a$};
-\draw [black] (61.2,-19.7) -- (61.2,-26.5);
-\fill [black] (61.2,-26.5) -- (61.7,-25.7) -- (60.7,-25.7);
-\draw (60.7,-23.1) node [left] {$b$};
-\draw [black] (61.2,-32.5) -- (61.2,-38.5);
-\fill [black] (61.2,-38.5) -- (61.7,-37.7) -- (60.7,-37.7);
-\draw (60.7,-35.5) node [left] {$b$};
-\draw [black] (51.4,-41.5) -- (58.2,-41.5);
-\fill [black] (58.2,-41.5) -- (57.4,-41) -- (57.4,-42);
-\draw (54.8,-42) node [below] {$a$};
-\draw [black] (45.44,-41.96) -- (15.16,-46.64);
-\fill [black] (15.16,-46.64) -- (16.03,-47.01) -- (15.88,-46.02);
-\draw (29.91,-43.71) node [above] {$b$};
-\draw [black] (63.88,-15.377) arc (144:-144:2.25);
-\draw (68.45,-16.7) node [right] {$a$};
-\fill [black] (63.88,-18.02) -- (64.23,-18.9) -- (64.82,-18.09);
-\draw [black] (63.88,-28.177) arc (144:-144:2.25);
-\draw (68.45,-29.5) node [right] {$a$};
-\fill [black] (63.88,-30.82) -- (64.23,-31.7) -- (64.82,-30.89);
-\draw [black] (63.88,-40.177) arc (144:-144:2.25);
-\draw (68.45,-41.5) node [right] {$a$};
-\fill [black] (63.88,-42.82) -- (64.23,-43.7) -- (64.82,-42.89);
-\draw [black] (61.2,-44.5) -- (61.2,-50.5);
-\fill [black] (61.2,-50.5) -- (61.7,-49.7) -- (60.7,-49.7);
-\draw (60.7,-47.5) node [left] {$b$};
-\draw [black] (63.88,-52.177) arc (144:-144:2.25);
-\draw (68.45,-53.5) node [right] {$a$};
-\fill [black] (63.88,-54.82) -- (64.23,-55.7) -- (64.82,-54.89);
-\draw [black] (58.23,-53.11) -- (15.17,-47.49);
-\fill [black] (15.17,-47.49) -- (15.9,-48.09) -- (16.03,-47.1);
-\draw (37,-49.71) node [above] {$b$};
-\draw [black] (23.47,-19.48) -- (13.33,-44.32);
-\fill [black] (13.33,-44.32) -- (14.1,-43.77) -- (13.17,-43.39);
-\draw (17.66,-31) node [left] {$b$};
-\end{tikzpicture}
-\end{center}
+\input{figures/1.6.tex}
 
 \newpage
 \item
@@ -271,16 +219,26 @@ Välj $s$ så att $s \in T$ och att $|s| = 2^p$. Vi kan nu välja $x, y$ och $z$
 %$$|s| = |xyz| = |k + m + 2^p - k - m| = 2^p$$
 
 Om vi nu pumpar y uppåt får vi:
-$$|xy^2z| = |k + 2 + 2^p - 1 - k| = |2^p - 1|$$
+$$|xy^2z| = k + 2 + 2^p - 1 - k = 2^p - 1$$
 vilket uppenbart har udda längd och alltså inte tillhör $T$, och då leder till att $T$ inte är reguljärt enligt pumplemmat.
 
     \item 
-Gör ett motsägelsebevis. Antag att:
-$$a^i \equiv_T a^k, \quad k > i > 0$$
+Definiera $\equiv_T$ så att:
+$$x \equiv_T y \text{ omm för varje } z \in \Sigma^* (xz \in T \iff yz \in T)$$
 
-Låt $z = $
+%$x \equiv_T y \text{ omm för varje } z \in \{0, 1\}^* \text{ så är } |xz| = 2^a \iff |yz| = 2^b \text{ där } a,b \in \mathbb{N}$
 
 
+Sedan gör vi ett motsägelsebevis. Antag att:
+$$x \equiv_T y \text{ där } |x|=2^i \text{ och } |y|=2^k, \quad i \ne k, \quad i, k \in \mathbb{N}$$
+
+Välj $z=\bar{x}$, alltså att $|z|=2^i$. Då får vi att: 
+$$xz \in T \text{ då } xz = x\bar{x} \text{ och }|xz| = 2^{i+1}$$
+Dock så är:
+$$yz \notin T \text{ då } |yz| = 2^k + 2^i \ne 2^{k+1} \text{ då } k \ne i$$
+Det är alltså omöjligt för $yz$ att vara ett Thue-Morse-tal då det längden inte kan skrivas som en enda 2-potens.
+
+Vi skulle alltså behöva en unik ekvivalensklass för varje $i$, vilket innebär ett oändligt antal klasser, alltså kan inte T vara reguljär. 
 \end{enumerate}
 
 \end{document}
