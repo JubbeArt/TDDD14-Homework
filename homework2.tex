@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{amsfonts}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{tikz}
+
+\usetikzlibrary{automata,positioning}
+
+\newcommand{\sectionbreak}{\clearpage}
+
+\titlespacing{\section}{0pt}{5pt}{-5pt}
+\titlespacing{\subsection}{0pt}{5pt}{-5pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+\title{TDDD14 - Home assignment 2}
+\author{Jesper Wrang (jeswr740) - 960619-8472 - jeswr740@student.liu.se}
+
+\date{2019-04-06}
+
+\begin{document}
+
+\maketitle
+
+% -----------------------------------------------------
+% ------------------------ 1 --------------------------
+% -----------------------------------------------------
+\section{}
+
+\begin{enumerate}[label=(\alph*)]
+    \item 
+$G_{np} = (\{\text{NP}, \text{P}\}, \{a, b\}, \text{Rules}, \text{NP})$ där $\text{Rules}$ är följande regler: 
+
+
+\begin{align*}
+\text{NP} & \to a\text{P} \\
+\text{NP} & \to b\text{P} \\
+\text{NP} & \to \text{P}a \\
+\text{NP} & \to \text{P}b \\
+\text{P} & \to a\text{P}a \; |\; b\text{P}b \\
+\text{P} & \to a \; |\; b \\
+\end{align*}
+
+\begin{align*}
+%\text{NP} & \to a\text{P} \\
+%\text{NP} & \to b\text{P} \\
+%\text{NP} & \to \text{P}a \\
+%\text{NP} & \to \text{P}b \\
+\text{NP} & \to a\text{P} \; |\; b\text{P} \\
+\text{NP} & \to a\text{P}b \; |\; b\text{P}a \\
+\text{NP} & \to ab \; |\; ba \\
+\end{align*}
+
+\item
+$G_{3} = (\{Start, A, B, C\}, \{a, b, c\}, Rules, Start)$ där $Rules$ är följande regler: 
+\begin{align*}
+Start & \to aAa \;|\; bBb \;|\; cCc \\
+A & \to aAa \;|\; aAb \;|\; aAc \;|\; bAa \;|\; bAb \;|\; bAc \;|\;  cAa \;|\; cAb \;|\; cAc \;|\; a \\
+B & \to aBa \;|\; aBb \;|\; aBc \;|\; bBa \;|\; bBb \;|\; bBc \;|\;  cBa  \;|\; cBb  \;|\; cBc \;|\; b \\
+C & \to aCa \;|\; aCb \;|\; aCc \;|\; bCa \;|\; bCb \;|\; bCc \;|\; cCa \;|\; cCb \;|\;  cCc \;|\; c \\
+\end{align*} 
+$Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara på första, sista och mellersta positionen. När en bokstav har valt så går man vidare till antingen $A$, $B$ eller $C$. Där så kan man lägga till godtyckligt med bokstäver mellan första och mellersta samt sista och mellersta, så länga som de är av samma längd. Det enda sättet detta kan terminera på är att välja mittenbokstav till rätt symbol (antingen $a$, $b$ eller $c$ beroende på vad man valt innan för start- och slutsymbol).
+\end{enumerate}
+
+% -----------------------------------------------------
+% ------------------------ 2 --------------------------
+% -----------------------------------------------------
+\section{}
+
+\begin{enumerate}[label=(\alph*)]
+    \item 
+    $LL$ skulle vara en sträng i $L$ konkatenerat men en annan sträng i $L$. Dock så betyder det andra språket att det ska vara samma sträng konkatenerat med sig själv, alltså skiljer sig språken. Ett fall där de är samma skulle vara om $L$ bara innehöll en sträng.
+    
+    \item
+    $L_1^R L_2^R$ är en konkatenering av en omvänd sträng i $L_1$  med en omvänd sträng i $L_2$. Denna ihopslagna sträng börjar alltså på sista bokstaven i ordet från $L_1$ . Dock så börjar ordet $(L_1 L_2)^R$ på den sista bokstaven i ordet från $L_2$. De är alltså inte samma språk. Ett fall då de är samma kan vara om $L_1$ och $L_2$ båda innehåller ett och samma ord.
+    
+    \item
+    Här är $L_1^R L_2^R$ samma som i förra uppgiften, alltså en omvänd sträng i $L_1$ konkatenerat men en om omvänd sträng i $L_2$. Denna sträng börjar på sista bokstaven av ordet i $L_1$, i mitten har vi första bokstaven av $L_1$ sedan kommer sista karaktären av order i $L_2$, i slutet av ordet av vi första bokstaven av ordet i $L_2$.
+    
+    $(L_2 L_1)^R$ följer samma struktur som ovan: starta på sista bokstaven i $L_1$ och sluta på första i $L_2$. I mitten av ordet får vi också samma sak: första bokstaven av $L_1$ och sista från $L_2$. Det är alltså tydligt att ändarna på strängar gör samma transformation av de båda språket. För alla karaktärer mellan första och sista i $L_1$ och $L_2$ kan man göra samma argument. Språken är samma.
+    
+    \item
+    $L^*$ är alla möjliga kombinationer av konkateneringar av alla strängar i $L$. $L^*L$ är samma sak fast man tvingar med en sträng i $L$ på slutet. Dock är dessa språk inte ekvivalenta. Till exempel med $L=\{a\}$ så beskriver $L^*$ strängarna: $\{\epsilon, a, aa, ...\}$ medan $L^*L$ bara beskriver $\{a, aa, ...\}$. Ett fall då de är samma är då $\epsilon \in L$
+    
+\end{enumerate}
+
+% -----------------------------------------------------
+% ------------------------ 3 --------------------------
+% -----------------------------------------------------
+\section{}
+
+\begin{enumerate}[label=(\alph*)]
+    \item 
+        $s = a^p \, b^{p+1} \,  c^{p+2}$
+        
+        
+\end{enumerate}
+
+% -----------------------------------------------------
+% ------------------------ 4 --------------------------
+% -----------------------------------------------------
+\section{}
+
+\begin{enumerate}[label=(\alph*)]
+    \item 
+        Alla strängar i $L$ måste börja på ett $a$. Sedan följer 0 eller flera $b$ och sist 1 eller flera $c$. Vi ser även att antalet $b$ är strikt mindre än antalet $c$.
+        
+        %$$L(G) = \{ab^ic^k \mid i \ge 0, \, k \ge 1, \,  k \ge i \}$$
+        $$L(G) = \{ab^ic^k \mid 0 \le i < k\}$$
+    \item
+        Ta till exempel strängen $abcc$. Detta kan skapas på flera olika sätt, exempelvis:
+        \begin{align*}
+        &S \implies aB \implies abBc \implies abcc \\
+        &S \implies aDc \implies abcc \\
+        \end{align*}
+        Eftersom det finns flera sätt att generera samma sträng på så är $G$ tvetydigt.
+
+    \item 
+    a
+\end{enumerate}
+
+% -----------------------------------------------------
+% ------------------------ 5 --------------------------
+% -----------------------------------------------------
+\section{}
+5
+
+% -----------------------------------------------------
+% ------------------------ 6 --------------------------
+% -----------------------------------------------------
+\section{}
+6
+
+\end{document}
