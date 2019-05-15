@@ -121,6 +121,16 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
         \end{itemize}
 
     \item 
+        Välj $s = 10^p\,20^p\,30^p$. Nu vill vi dela upp $s$ så att $s=uvwxy$, $|vwx| \le p$ och $|vx| \ge 1$. Här får vi flera olika fall beroende på vart $vwx$ hamnar i $s$:
+        \begin{itemize}
+            \item $vwx=10^i$ för något $i < p$. Pumpas detta neråt blir vi av med $1$:an och vi får en sträng som innehåller en $2$:a, en $3$:a och en massa nollor. Denna sträng kan omöjligt vara i $L$.
+            \item $vwx=20^i$, samma argument som ovan.
+            \item $vwx=30^i$, samma argument som ovan.
+            \item $vwx=0^i$, $i \le p$. Detta är oberoende av vilken "hög av nollor" man är i. Om detta pumpas neråt förlorar man nollor i en av termerna vilket gör det omöjligt för denna sträng att vara i $L$. Det går även inte att ändra termerna så att man får en korrekt summa. 
+            \item $vwx=0^i20^j$, $i + j < p$. Om vi pumpar detta uttryck neråt så förlorar vi nollor i första och/eller andra uttrycket. Det tredje uttrycket har kvar sina nollor vilket gör att detta aldrig kan skrivas som en korrekt summa. Det kan även hända att vi förlorar $2$:an då vi pumpar, och då kan man använda argumentet som gjordes i första punkten.
+            \item $vwx=0^i30^j$, samma argument som ovan.
+        \end{itemize}
+        Inget av fallen gav en giltig sträng, alltså är $L_2$ inte kontextfritt.
         
 \end{enumerate}
 
@@ -146,8 +156,8 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
     \item
         Definiera $G'$ som ett språk med följande regler:
         \begin{align*}
-            S & \to acc \mid aBc \\
-            B & \to bBc \mid bc
+            S & \to acc \mid aB \\
+            B & \to bBc \mid c
         \end{align*}
         Detta är den formella beskrivingen av det som beskriv i $(a)$-uppgiften. Den beskriver alltså samma språk som $G$, dock så kan man i varje steg bestämma vilken regel man ska använda, alltså att grammatiken är deterministisk.
 
@@ -159,7 +169,7 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
 \section{}
 
 \begin{enumerate}[label=(\alph*)]
-    \item Att lägga till en extra stack till en PDA gör så att man kan beskriva mer språk än en vanlig PDA som endast en stack. Till exempel kan en 2-stack PDA känna igen språket 
+    \item Att lägga till en extra stack till en PDA gör så att man kan beskriva mer språk än en vanlig PDA som endast en stack. Till exempel kan en 2-stack PDA känna igen språket:
     $$L = \{a^nb^nc^n \mid n \ge 1 \}$$
     genom att lägga till antalet $a$:n i båda stackarna, och sedan jämföra första stacken med antalet $b$:n och andra stacken med antalet $c$:n.
     Detta är inte möjligt med en PDA som endast har 1 stack.
@@ -172,9 +182,39 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
 \section{}
 
 \begin{enumerate}[label=(\alph*)]
-    \item Yes
-    \item ?
-    \item Yes
+    \item
+        Antag att funktionen $f$ är en mappning från $L$ till sig själv, alltså att:
+        $$x \in L \iff f(x) \in L$$
+        Eftersom $f(x)=x$ så är detta reflexiv relation.
+    
+    \item 
+        Antag att funktionen $f$ är en mappning från $L_1$ till $L_2$ och att $g$ är en mappning från $L_2$ till $L_1$, alltså att: 
+         \begin{align*}
+            x & \in L_1 \iff f(x) \in L_2 \\
+            x & \in L_2 \iff g(x) \in L_1
+        \end{align*}
+        Dock så kan vi inte garantera att detta detta är symmetrisk för språken $L_1$ och $L_2$ då detta kräver att de följande också är sant:
+        \begin{align*}
+            x & \in L_1 \iff f(x) \in L_1 \\
+            x & \in L_2 \iff g(x) \in L_2
+        \end{align*}
+        Vilket endast är sant då $L_1 = L_2$, detta är alltså inte (generellt) en  symmetrisk relation.
+        
+    \item 
+        Antag att funktionen $f$ är en mappning från $L_1$ till $L_2$ och att $g$ är en mappning från $L_2$ till $L_3$, alltså att:
+        \begin{align*}
+            x & \in L_1 \iff f(x) \in L_2 \\
+            x & \in L_2 \iff g(x) \in L_3
+        \end{align*}
+        Vi kan nu skapa funktionen $h(x) = f(g(x))$ som är en (transitiv) mappning från $L_1$ till $L_3$, då:
+        \begin{align*}
+            x \in L_1 \iff &f(x) \in L_2 \iff \\
+            \iff &g(f(x)) \in L_3 \iff \\ 
+            \iff &h(x) \in L_3 \\
+        \end{align*}
+        Mappningsreduktion är alltså en transitiv relation.
+        
+        
 
 
 \end{enumerate}
