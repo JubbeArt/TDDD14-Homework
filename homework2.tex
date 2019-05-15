@@ -19,7 +19,7 @@
 \title{TDDD14 - Home assignment 2}
 \author{Jesper Wrang (jeswr740) - 960619-8472 - jeswr740@student.liu.se}
 
-\date{2019-04-06}
+\date{2019-05-15}
 
 \begin{document}
 
@@ -32,37 +32,33 @@
 
 \begin{enumerate}[label=(\alph*)]
     \item 
-$G_{np} = (\{\text{NP}, \text{P}\}, \{a, b\}, \text{Rules}, \text{NP})$ där $\text{Rules}$ är följande regler: 
-
-
+$G_{np} = (\{YP, NP, IP\}, \{a, b\}, Rules, YP)$. Förkortningarna står för:
 \begin{align*}
-\text{NP} & \to a\text{P} \\
-\text{NP} & \to b\text{P} \\
-\text{NP} & \to \text{P}a \\
-\text{NP} & \to \text{P}b \\
-\text{P} & \to a\text{P}a \; |\; b\text{P}b \\
-\text{P} & \to a \; |\; b \\
+    YP &= \text{Yttre Palindrom} \\
+    NP &= \text{Non Palindrom} \\
+    IP &= \text{Inre Palindrom} \\
 \end{align*}
-
+$Rules$ är då följande regler: 
 \begin{align*}
-%\text{NP} & \to a\text{P} \\
-%\text{NP} & \to b\text{P} \\
-%\text{NP} & \to \text{P}a \\
-%\text{NP} & \to \text{P}b \\
-\text{NP} & \to a\text{P} \; |\; b\text{P} \\
-\text{NP} & \to a\text{P}b \; |\; b\text{P}a \\
-\text{NP} & \to ab \; |\; ba \\
+YP & \to aYPa \mid bYPb \mid NP \\
+NP & \to aIPb \mid bIPa \\
+IP & \to NP \mid aIPa \mid bIPb \mid a \mid  b \mid \epsilon
 \end{align*}
+$YP$ används i fall att de yttre delarna av strängen skulle i ut som ett palindrom. $NP$ ser till att vi faktiskt bryter mot definitionen av ett palindrom någonstans i strängen. Sist så kan vi ha godtyckligt med saker innerst i strängen efter att vi har garanterat att det inte är ett palindrom längre. Detta görs med $IP$.
 
 \item
-$G_{3} = (\{Start, A, B, C\}, \{a, b, c\}, Rules, Start)$ där $Rules$ är följande regler: 
+$G_{3} = (\{Start, A, B, C, X\}, \{a, b, c\}, Rules, Start)$ där $Rules$ är följande regler: 
 \begin{align*}
-Start & \to aAa \;|\; bBb \;|\; cCc \\
-A & \to aAa \;|\; aAb \;|\; aAc \;|\; bAa \;|\; bAb \;|\; bAc \;|\;  cAa \;|\; cAb \;|\; cAc \;|\; a \\
-B & \to aBa \;|\; aBb \;|\; aBc \;|\; bBa \;|\; bBb \;|\; bBc \;|\;  cBa  \;|\; cBb  \;|\; cBc \;|\; b \\
-C & \to aCa \;|\; aCb \;|\; aCc \;|\; bCa \;|\; bCb \;|\; bCc \;|\; cCa \;|\; cCb \;|\;  cCc \;|\; c \\
+Start & \to aAa \mid bBb \mid cCc  \mid X \\
+A & \to XAX \mid a \\
+B & \to XBX \mid b \\ 
+C & \to XCX \mid c \\ 
+X & \to a \mid b \mid c \\ 
+%A & \to aAa \mid aAb \mid aAc \mid bAa \mid bAb \mid bAc \mid  cAa \mid cAb \mid cAc \mid a \\
+%B & \to aBa \mid aBb \mid aBc \mid bBa \mid bBb \mid bBc \mid  cBa  \mid cBb  \mid cBc \mid b \\
+%C & \to aCa \mid aCb \mid aCc \mid bCa \mid bCb \mid bCc \mid cCa \mid cCb \mid  cCc \mid c \\
 \end{align*} 
-$Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara på första, sista och mellersta positionen. När en bokstav har valt så går man vidare till antingen $A$, $B$ eller $C$. Där så kan man lägga till godtyckligt med bokstäver mellan första och mellersta samt sista och mellersta, så länga som de är av samma längd. Det enda sättet detta kan terminera på är att välja mittenbokstav till rätt symbol (antingen $a$, $b$ eller $c$ beroende på vad man valt innan för start- och slutsymbol).
+$Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara på första, sista och mellersta positionen. När en bokstav har valt så går man vidare till antingen $A$, $B$ eller $C$. Där så kan man lägga till godtyckligt med bokstäver mellan första och mellersta samt sista och mellersta, vilket görs med hjälp av $X$. Det enda sättet detta kan terminera på är att välja mittenbokstav till rätt symbol (antingen $a$, $b$ eller $c$ beroende på vad man valt innan för start- och slutsymbol).
 \end{enumerate}
 
 % -----------------------------------------------------
@@ -74,16 +70,24 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
     \item 
     $LL$ skulle vara en sträng i $L$ konkatenerat men en annan sträng i $L$. Dock så betyder det andra språket att det ska vara samma sträng konkatenerat med sig själv, alltså skiljer sig språken. Ett fall där de är samma skulle vara om $L$ bara innehöll en sträng.
     
+    \textbf{Svar: } Språken skiljer sig
+    
     \item
     $L_1^R L_2^R$ är en konkatenering av en omvänd sträng i $L_1$  med en omvänd sträng i $L_2$. Denna ihopslagna sträng börjar alltså på sista bokstaven i ordet från $L_1$ . Dock så börjar ordet $(L_1 L_2)^R$ på den sista bokstaven i ordet från $L_2$. De är alltså inte samma språk. Ett fall då de är samma kan vara om $L_1$ och $L_2$ båda innehåller ett och samma ord.
+    
+    \textbf{Svar: } Språken skiljer sig
     
     \item
     Här är $L_1^R L_2^R$ samma som i förra uppgiften, alltså en omvänd sträng i $L_1$ konkatenerat men en om omvänd sträng i $L_2$. Denna sträng börjar på sista bokstaven av ordet i $L_1$, i mitten har vi första bokstaven av $L_1$ sedan kommer sista karaktären av order i $L_2$, i slutet av ordet av vi första bokstaven av ordet i $L_2$.
     
-    $(L_2 L_1)^R$ följer samma struktur som ovan: starta på sista bokstaven i $L_1$ och sluta på första i $L_2$. I mitten av ordet får vi också samma sak: första bokstaven av $L_1$ och sista från $L_2$. Det är alltså tydligt att ändarna på strängar gör samma transformation av de båda språket. För alla karaktärer mellan första och sista i $L_1$ och $L_2$ kan man göra samma argument. Språken är samma.
+    $(L_2 L_1)^R$ följer samma struktur som ovan: starta på sista bokstaven i $L_1$ och sluta på första i $L_2$. I mitten av ordet får vi också samma sak: första bokstaven av $L_1$ och sista från $L_2$. Det är alltså tydligt att ändarna på strängar gör samma transformation av de båda språket. För alla karaktärer mellan första och sista i $L_1$ och $L_2$ kan man göra samma argument. 
     
+    \textbf{Svar: } Språken är samma
+
     \item
-    $L^*$ är alla möjliga kombinationer av konkateneringar av alla strängar i $L$. $L^*L$ är samma sak fast man tvingar med en sträng i $L$ på slutet. Dock är dessa språk inte ekvivalenta. Till exempel med $L=\{a\}$ så beskriver $L^*$ strängarna: $\{\epsilon, a, aa, ...\}$ medan $L^*L$ bara beskriver $\{a, aa, ...\}$. Ett fall då de är samma är då $\epsilon \in L$
+    $L^*$ är alla möjliga kombinationer av konkateneringar av alla strängar i $L$. $L^*L$ är samma sak fast man tvingar med en sträng i $L$ på slutet. Dock är dessa språk inte ekvivalenta. Till exempel med $L=\{a\}$ så beskriver $L^*$ språket: $\{\epsilon, a, aa, ...\}$ medan $L^*L$ bara beskriver $\{a, aa, ...\}$. Ett fall då de är samma är då $\epsilon \in L$
+    
+    \textbf{Svar: } Språken skiljer sig
     
 \end{enumerate}
 
@@ -94,8 +98,29 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
 
 \begin{enumerate}[label=(\alph*)]
     \item 
-        $s = a^p \, b^{p+1} \,  c^{p+2}$
+     %   Börja med att välja $s = bc^{p+1}$ där $p$ är pumplängden. Nu ska vi enligt pumplemmat kunna skriva $s = uvwxy $ för någon uppsättning av $u$, $v$, $w$, $x$ och $y$ så att $| vwx | \le p$ och $|vx| \ge 1$.
         
+    %    Vi får nu 2 olika fall för vad $vwx$ kan innehålla, och i båda fallen kan vi skapa en motsägelse så att den pumpade strängen inte tillhör $L_1$:
+        
+        %\begin{itemize}
+        %    \item $vwx$ innehåller ett $b$ och ett godtyckligt antal $c$:n. Pumpa neråt så att vi bara har $c$:n kvar. Detta leder till en motsägelse då antalet $a$:n och $b$:n är samma (alltså inga alls).
+            
+        %    \item $vwx$ innehåller bara $c$:n.
+        %\end{itemize}
+        
+        Börja med att välja $s = a^p \, b^{p+1} \,  c^{p+2}$ där $p$ är pumplängden. Nu ska vi enligt pumplemmat kunna skriva $s = uvwxy $ för någon uppsättning av $u$, $v$, $w$, $x$ och $y$ så att $| vwx | \le p$ och $|vx| \ge 1$.
+        
+        Vi får nu 5 olika fall för vad $vwx$ kan innehålla, och i varje fall kan vi skapa en motsägelse så att den pumpade strängen inte tillhör $L_1$:
+        
+        \begin{itemize}
+            \item $vwx$ innehåller bara $a$:n. Här kan vi pumpa uppåt tills antalet $a$:n är fler än eller lika med antalet $b$:n.
+            \item $vwx$ innehåller en blandning av $a$:n och $b$:n. Här kan vi pumpa uppåt tills antalet $a$:n är fler än eller lika med antalet $c$:n.
+            \item $vwx$ innehåller bara $b$:n. Här kan vi pumpa uppåt tills antalet $b$:n är fler än eller lika med antalet $c$:n. 
+            \item $vwx$ innehåller en blandning av $b$:n och $c$:n. Här kan vi pumpa neråt tills antalet $b$:n eller antalet $c$:n är mindre än eller lika med antalet $a$:n.
+            \item $vwx$ innehåller bara $c$:n. Här kan vi pumpa neråt tills antalet $c$:n är mindre än eller lika med antalet $b$:n.
+        \end{itemize}
+
+    \item 
         
 \end{enumerate}
 
@@ -106,32 +131,52 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
 
 \begin{enumerate}[label=(\alph*)]
     \item 
-        Alla strängar i $L$ måste börja på ett $a$. Sedan följer 0 eller flera $b$ och sist 1 eller flera $c$. Vi ser även att antalet $b$ är strikt mindre än antalet $c$.
-        
-        %$$L(G) = \{ab^ic^k \mid i \ge 0, \, k \ge 1, \,  k \ge i \}$$
-        $$L(G) = \{ab^ic^k \mid 0 \le i < k\}$$
+        En av strängarna är $acc$. Resten av strängarna följer mönstret: börja på $a$, sedan $n$ antal $b$:n och sist $n+1$ antal $c$:n. Alltså kan språket skrivas som:
+        $$L(G) =\{acc\} \cup \{ab^nc^{n+1} \mid n \ge 0 \}$$
     \item
-        Ta till exempel strängen $abcc$. Detta kan skapas på flera olika sätt, exempelvis:
+        Ta till exempel strängen $abcc$. Detta kan med vänsterderivering skapas på flera olika sätt, exempelvis:
         \begin{align*}
-        &S \implies aB \implies abBc \implies abcc \\
+        &S \implies aB  \implies abBc \implies abcc \\
         &S \implies aDc \implies abcc \\
         \end{align*}
-        Eftersom det finns flera sätt att generera samma sträng på så är $G$ tvetydigt.
-
+        Eftersom det finns flera sätt att generera samma sträng på så är $G$ tvetydig.
+        
     \item 
-    a
+        Vi har redan visat att $G$ är tvetydig (för båda vänster- och högerderivering), alltså kan det inte heller vara en $LR(1)$ grammatik.
+    \item
+        Definiera $G'$ som ett språk med följande regler:
+        \begin{align*}
+            S & \to acc \mid aBc \\
+            B & \to bBc \mid bc
+        \end{align*}
+        Detta är den formella beskrivingen av det som beskriv i $(a)$-uppgiften. Den beskriver alltså samma språk som $G$, dock så kan man i varje steg bestämma vilken regel man ska använda, alltså att grammatiken är deterministisk.
+
 \end{enumerate}
 
 % -----------------------------------------------------
 % ------------------------ 5 --------------------------
 % -----------------------------------------------------
 \section{}
-5
 
+\begin{enumerate}[label=(\alph*)]
+    \item Att lägga till en extra stack till en PDA gör så att man kan beskriva mer språk än en vanlig PDA som endast en stack. Till exempel kan en 2-stack PDA känna igen språket 
+    $$L = \{a^nb^nc^n \mid n \ge 1 \}$$
+    genom att lägga till antalet $a$:n i båda stackarna, och sedan jämföra första stacken med antalet $b$:n och andra stacken med antalet $c$:n.
+    Detta är inte möjligt med en PDA som endast har 1 stack.
+    
+    \item En Turingmaskin med en stack kan beskriva exakt samma språk som en Turingmaskin utan en separat stack. Detta är eftersom man alltid kan simulera en stack på en Turingmaskin. Det ger alltså inget att lägga till en stack till en Turingmaskin.
+\end{enumerate}
 % -----------------------------------------------------
 % ------------------------ 6 --------------------------
 % -----------------------------------------------------
 \section{}
-6
+
+\begin{enumerate}[label=(\alph*)]
+    \item Yes
+    \item ?
+    \item Yes
+
+
+\end{enumerate}
 
 \end{document}
