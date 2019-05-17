@@ -156,8 +156,8 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
     \item
         Definiera $G'$ som ett språk med följande regler:
         \begin{align*}
-            S & \to acc \mid aB \\
-            B & \to bBc \mid c
+            S & \to aBc \\
+            B & \to bBc \mid c \mid \epsilon
         \end{align*}
         Detta är den formella beskrivingen av det som beskriv i $(a)$-uppgiften. Den beskriver alltså samma språk som $G$, dock så kan man i varje steg bestämma vilken regel man ska använda, alltså att grammatiken är deterministisk.
 
@@ -185,7 +185,7 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
     \item
         Antag att funktionen $f$ är en mappning från $L$ till sig själv, alltså att:
         $$x \in L \iff f(x) \in L$$
-        Eftersom $f(x)=x$ så är detta reflexiv relation.
+        Eftersom vi alltid kan välja mappningen $f(x)=x$ så är detta reflexiv relation.
     
     \item 
         Antag att funktionen $f$ är en mappning från $L_1$ till $L_2$ och att $g$ är en mappning från $L_2$ till $L_1$, alltså att: 
@@ -195,8 +195,8 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
         \end{align*}
         Dock så kan vi inte garantera att detta detta är symmetrisk för språken $L_1$ och $L_2$ då detta kräver att de följande också är sant:
         \begin{align*}
-            x & \in L_1 \iff f(x) \in L_1 \\
-            x & \in L_2 \iff g(x) \in L_2
+            x & \in L_1 \iff g(x) \in L_1 \\
+            x & \in L_2 \iff f(x) \in L_2
         \end{align*}
         Vilket endast är sant då $L_1 = L_2$, detta är alltså inte (generellt) en  symmetrisk relation.
         
