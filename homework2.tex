@@ -156,8 +156,9 @@ $Start$ i detta fall är en symbol för att välja vilken bokstav som ska vara p
     \item
         Definiera $G'$ som ett språk med följande regler:
         \begin{align*}
-            S & \to aBc \\
-            B & \to bBc \mid c \mid \epsilon
+            S & \to aXc \\
+            X & \to bYc \mid c \mid \epsilon \\
+            Y & \to bYc \mid \epsilon
         \end{align*}
         Detta är den formella beskrivingen av det som beskriv i $(a)$-uppgiften. Den beskriver alltså samma språk som $G$, dock så kan man i varje steg bestämma vilken regel man ska använda, alltså att grammatiken är deterministisk.
 
